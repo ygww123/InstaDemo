@@ -1,4 +1,6 @@
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 from .models import Post
 
 # Create your views here.
@@ -13,10 +15,17 @@ class PostDetail(DetailView):
     model = Post
     template_name = "post_detail.html"
 
-# def blog_detail_view(request, primary_key):
-#     try:
-#         post = Post.objects.get(pk=primary_key)
-#     except Post.DoesNotExist:
-#         raise Http404('Post does not exist')
+class PostCreateView(CreateView):
+    model = Post
+    template_name = "make_post.html"
+    fields = '__all__'
 
-#     return render(request, 'post_detail.html', context={'post': posts})
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = "update_post.html"
+    fields = ('title',)
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = "delete_post.html"
+    success_url = reverse_lazy('home')
